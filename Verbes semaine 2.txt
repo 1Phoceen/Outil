@@ -1,0 +1,5 @@
+erfahren,erfährt,erfuhr,hat erfahren,apprendre
+erfinden,erfindet,erfand,hat erfunden,inventer
+essen,isst,aß,hat gegessen,manger
+fahren,fährt,fuhr,ist gefahren,aller
+Fallen,fällt,fiel,ist gefallen,tomber
