@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 
 const STORAGE_KEY = "irregularVerbsConfigV2";
 const SUCCESS_DELAY_MS = 700;
@@ -548,4 +548,4 @@ if (chefModal) {
       closeChefModal();
     }
   });
-}
+                                         }
