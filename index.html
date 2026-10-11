@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réviseur de verbes irréguliers</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>Réviseur de verbes irréguliers</h1>
+      <p>Configure ta liste puis lance le quiz.</p>
+    </header>
+
+    <!-- CONFIG -->
+    <section id="view-config" class="view">
+      <h2>Configuration</h2>
+
+      <label for="language-select" class="label">Langue du quiz</label>
+      <select id="language-select" class="select-input"></select>
+
+      <details class="panel">
+        <summary>Modifier / ajouter une langue</summary>
+        <label for="lang-name" class="label">Nom de la langue</label>
+        <input id="lang-name" type="text" placeholder="Ex. Espagnol">
+        <label for="lang-forms" class="label">Colonnes (séparées par des virgules, la 1re = français)</label>
+        <input id="lang-forms" type="text" placeholder="Français, Infinitif, Passé, Participe">
+        <p class="hint">Changer le nombre de colonnes oblige à adapter ta liste de verbes.</p>
+        <div class="actions row">
+          <button id="lang-save" type="button">Enregistrer cette langue</button>
+          <button id="lang-new" type="button">Créer comme nouvelle langue</button>
+          <button id="lang-delete" type="button" class="danger">Supprimer</button>
+        </div>
+      </details>
+
+      <p class="hint">
+        Format (une ligne par verbe, <code>#</code> = commentaire) :
+        <code id="format-hint"></code>
+        <br>Plusieurs réponses possibles dans une case : <code>learnt/learned</code>
+      </p>
+
+      <label for="verbs-input" class="label">Liste des verbes</label>
+      <textarea id="verbs-input" rows="10" aria-describedby="config-feedback"></textarea>
+
+      <div class="actions row compact">
+        <button id="example-btn" type="button">Charger un exemple</button>
+        <button id="save-btn" type="button">Enregistrer la liste</button>
+      </div>
+
+      <div class="selection-block">
+        <div class="selection-head">
+          <p class="label selection-title">Verbes inclus dans le quiz</p>
+          <span>
+            <button id="sel-all" type="button" class="small">Tout</button>
+            <button id="sel-none" type="button" class="small">Rien</button>
+          </span>
+        </div>
+        <div id="verbs-selection" class="verbs-selection" aria-live="polite"></div>
+      </div>
+
+      <details class="panel">
+        <summary>Réglages du quiz</summary>
+
+        <p class="label">Formes pouvant être données comme indice</p>
+        <div id="given-box" class="checks"></div>
+
+        <label for="opt-count" class="label">Nombre de questions (0 = chaque verbe une fois)</label>
+        <input id="opt-count" type="number" min="0" max="500" value="0">
+
+        <label for="opt-delay" class="label">Délai avant la question suivante (ms)</label>
+        <input id="opt-delay" type="number" min="0" max="5000" step="100" value="700">
+
+        <label class="check"><input id="opt-shuffle" type="checkbox"> Ordre aléatoire</label>
+        <label class="check"><input id="opt-autonext" type="checkbox"> Passer automatiquement après une bonne réponse</label>
+        <label class="check"><input id="opt-accents" type="checkbox"> Ignorer les accents et les trémas</label>
+        <label class="check"><input id="opt-translit" type="checkbox"> Accepter ae/oe/ue/ss pour ä/ö/ü/ß</label>
+      </details>
+
+      <details class="panel">
+        <summary>Sauvegarde</summary>
+        <div class="actions row compact">
+          <button id="export-btn" type="button">Exporter (.json)</button>
+          <button id="import-btn" type="button">Importer</button>
+        </div>
+        <input id="import-file" type="file" accept=".json,application/json" class="hidden">
+      </details>
+
+      <div class="actions">
+        <button id="start-btn" type="button" class="primary">Démarrer le quiz</button>
+      </div>
+      <p id="config-feedback" class="feedback" aria-live="polite"></p>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="view-quiz" class="view hidden">
+      <div class="quiz-top">
+        <h2>Quiz</h2>
+        <p class="score">
+          Question <strong id="progress">0/0</strong> · Score : <strong id="score">0</strong>
+        </p>
+      </div>
+
+      <p class="prompt"><span id="prompt-prefix">Complète les autres formes à partir de :</span> <strong id="given-word">-</strong></p>
+
+      <form id="quiz-form" novalidate>
+        <div id="quiz-inputs"></div>
+        <div class="actions">
+          <button id="submit-btn" type="submit" class="primary">Vérifier</button>
+          <button id="back-btn" type="button">Retour config</button>
+        </div>
+      </form>
+      <p id="quiz-feedback" class="feedback" aria-live="polite"></p>
+    </section>
+
+    <!-- RESULT -->
+    <section id="view-result" class="view hidden">
+      <h2>Résultat</h2>
+      <p class="big-score"><strong id="final-score">0 / 0</strong></p>
+      <div id="errors-block">
+        <p class="label">Verbes à revoir</p>
+        <ul id="errors-list" class="errors-list"></ul>
+      </div>
+      <div class="actions">
+        <button id="retry-errors-btn" type="button" class="primary">Rejouer mes erreurs</button>
+        <button id="restart-btn" type="button">Recommencer</button>
+        <button id="result-back-btn" type="button">Retour config</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
